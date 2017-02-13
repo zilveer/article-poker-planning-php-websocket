@@ -1,0 +1,11 @@
+App\Entity\User:
+    exclusion_policy: NONE
+    properties:
+        id:
+            type: integer
+        pseudo:
+            type: string
+        vote:
+            type: integer
+        team:
+            type: App\Entity\Team

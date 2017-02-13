@@ -1,0 +1,5 @@
+App\Event\UserEvent:
+    exclusion_policy: NONE
+    properties:
+        user:
+            type: App\Entity\User

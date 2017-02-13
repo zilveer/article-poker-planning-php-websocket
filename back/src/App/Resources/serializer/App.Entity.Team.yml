@@ -1,0 +1,11 @@
+App\Entity\Team:
+    exclusion_policy: NONE
+    properties:
+        id:
+            type: integer
+        title:
+            type: string
+        voteInProgress:
+            type: boolean
+        users:
+            type: array<App\Entity\User>

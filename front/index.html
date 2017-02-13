@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/all.css">
+    </head>
+    <body>
+        <div class="container screen screen-pseudo">
+            <form>
+                <h2>Enter your name</h2>
+                <input type="text" id="input-pseudo" class="form-control" placeholder="Your name" required autofocus>
+                <br />
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Ok</button>
+            </form>
+        </div>
+
+        <div class="container screen screen-teams">
+            <h2>Join a team <button class="btn btn-default refresh-teams"><i class="fa fa-refresh" aria-hidden="true"></i></button></h2>
+            <button type="button" class="btn btn-success btn-lg btn-list create-team"><i class="fa fa-plus" aria-hidden="true"></i> Créer une équipe</button>
+            <div class="teams-list">
+                <button type="button" class="btn btn-primary btn-lg btn-list"><i class="fa fa-users" aria-hidden="true"></i> Loading teams...</button>
+            </div>
+        </div>
+
+        <div class="container screen screen-vote">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="fibonacci-list">
+                        <button type="button" class="btn btn-primary btn-lg btn-list">1</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-list">2</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-list">...</button>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h2>
+                        Team
+                        <span class="team-name"></span>
+                        <span class="badge badge-primary">Vote en cours...</span>
+                        <button class="btn btn-default refresh-team"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    </h2>
+                    <ul class="list-group team-users-list">
+                        <li class="list-group-item">User 1</li>
+                        <li class="list-group-item">User 2</li>
+                        <li class="list-group-item">User 3</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/autobahn.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/tether/dist/js/tether.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

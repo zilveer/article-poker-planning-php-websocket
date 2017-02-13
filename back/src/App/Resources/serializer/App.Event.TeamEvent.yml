@@ -1,0 +1,5 @@
+App\Event\TeamEvent:
+    exclusion_policy: NONE
+    properties:
+        team:
+            type: App\Entity\Team

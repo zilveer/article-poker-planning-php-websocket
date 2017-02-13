@@ -1,0 +1,17 @@
+App\Entity\Team:
+    type: entity
+    repositoryClass: App\Repository\TeamRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+        voteInProgress:
+            type: boolean
+    oneToMany:
+        users:
+            targetEntity: User
+            mappedBy: team
