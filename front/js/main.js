@@ -1,8 +1,8 @@
 (function ($, jsonEncode, autobahn) {
     'use strict';
 
-    var apiUrl = 'http://localhost:20000/index-dev.php/api';
-    var websocketUrl = 'ws://localhost:20002';
+    var apiUrl = 'http://localhost:8088/index-dev.php/api';
+    var websocketUrl = 'ws://localhost:8089';
     var autobahnSession = null;
 
     autobahn.connect(websocketUrl, onOpen, onError);

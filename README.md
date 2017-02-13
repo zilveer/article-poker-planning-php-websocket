@@ -58,6 +58,9 @@ Then, I will build the second part of the application, the real time vote using 
 - Client:
     - Bootstrap 4 + jQuery + Js app which uses api
 
+> **Note**:
+> The application I'll build in this article is available on Github:
+> https://github.com/alcalyn/article-poker-planning-php-websocket/tree/master/back
 
 ## Part I: Rest Api with Silex
 
@@ -86,7 +89,6 @@ docker-compose up --no-deps -d php-fpm database
 
 docker exec -ti sandstone-php /bin/bash -c "composer update"
 docker exec -ti sandstone-database /bin/bash -c "mysql -u root -proot -e 'create database sandstone;'"
-docker exec -ti sandstone-php /bin/bash -c "bin/console orm:schema-tool:create"
 
 docker-compose up -d
 ```
@@ -107,6 +109,8 @@ and empty all the three `registerUserProviders()` methods in:
  - `app/Application.php`
  - `app/RestApiApplication.php`
  - `app/WebsocketApplication.php`
+
+We still need to have a serializer directory: `mkdir -p src/App/Resources/serializer`.
 
 
 ### The Sandstone fullstack structure
@@ -256,6 +260,9 @@ class PokerPlanningWebsocketProvider implements ServiceProviderInterface
     }
 ```
 
+We now have three providers where we can register services
+depending on the stack it need to.
+
 
 ### Create database schema with Doctrine
 
@@ -340,6 +347,10 @@ We now want a lot of routes such as:
 #### Team controller
 
 I won't expose all controllers, but just one as an example.
+
+> **Note**: The whole application is available on Github,
+> so check <https://github.com/alcalyn/article-poker-planning-php-websocket/tree/master/back/src/App/Controller>
+> to see all others controllers.
 
 Let's implement the `POST /users/{user}/vote` route:
 
@@ -575,11 +586,11 @@ Now I want to display which user has voted in real-time.
 
 But I don't want to request my RestApi every second to check if state has changed.
 
-I want the RestApi notify me when an user votes and when all users voted
-so I can display informations as soon as it is available.
-
 
 ### Display user vote in real time
+
+**The need**: I want the RestApi notify me when an user votes and when all users voted
+so I can display informations as soon as it is available.
 
 How we will achieve that ?
 
@@ -593,30 +604,40 @@ The logic is:
 
 But I also want that the RestApi notifies all other users in the team that I voted.
 
-So all users will **subscribe** to a websocket,
+**The websocket solution**:
+
+All users should connect to a websocket,
 and the RestApi will notify through this websocket that I voted.
 
-Sandstone uses the WAMP protocol. So instead of listen to the websocket,
+Sandstone uses the WAMP protocol. So instead of connect to the websocket and listen all messages,
 we can create channels, or topics, and **subscribe** to a topic.
 
-I will then receive messages from this topic only.
+Users will then receive messages from this topic only.
 
 I want to create a topic for each team, `teams/1`, `teams/2`, ...
 
-And I will dispatch messages relative the the team on these channel.
+And I will dispatch messages relative to the team on the team channel.
 
-Then, every user who joins a team will also subscribes to the team channel to receive real-time notifications.
+Then, every user who joins a team must also subscribes to the team channel
+in order to receive real-time notifications (someone in his team just voted).
 
 
 #### Creating the websocket topic
 
-A Topic class is responsible of the logic behind a websocket topic.
+Once you understand the logic, let's implement it with Sandstone.
+
+A `Topic` class is responsible of the logic behind a websocket topic.
+
 
 It implements for example the method `onSubscribe`, called when an user subscribes to this topic.
-You probably want to add this user to an array so you know which user are subscribed this specific topic.
+
+> **Example**: Add the subscribing user to an array so you know which user are subscribed this specific topic.
+
 
 It also implements the `onPublish` method, when an user send a message to this topic.
-You probably want to broadcast back this message to every users who subscribed to this topic.
+
+> **Example**: Broadcast back the message to every users who subscribed to this topic.
+
 
 It also provides a `broadcast` method to broadcast a message to every subscribing users.
 
